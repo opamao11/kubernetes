@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-db
+  labels:
+    app: mysql-db
+spec:
+  selector:
+    matchLabels:
+      app: mysql-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+        - name: mysql-db
+          image: vprofile/vprofiledb:V1
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-db-vol
+          ports:
+            - containerPort: 3306
+              name: mysql-db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: db-pass
+      nodeSelector:
+        zone: us-east-1a
+      volumes:
+        - name: mysql-db-vol
+          awsElasticBlockStore:
+            volumeID: vol-0d476a16c1c71d57f
+            fsType: ext4
+
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: [ "rm", "-rf", "/var/lib/mysql" ]
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-db-vol
