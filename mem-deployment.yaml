@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: appmamC
+  name: appmemc
   labels:
-    app: appmemC
+    app: appmemc
 spec:
   selector:
     matchLabels:
-      app: appmemC
+      app: appmemc
   replicas: 1
   template:
     metadata:
       labels:
-        app: appmemC
+        app: appmemc
     spec:
       containers:
-        - name: appmemC
+        - name: appmemc
           image: memcached
           ports:
             - containerPort: 11211
-              name: appmemC-port
+              name: appmemcport
