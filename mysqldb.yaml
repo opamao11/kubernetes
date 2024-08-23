@@ -40,7 +40,7 @@ spec:
       initContainers:
         - name: busybox
           image: busybox:latest
-          args: [ "rm", "-rf", "/var/lib/mysql" ]
+          args: ["sh", "-c", "mkdir -p /var/lib/mysql && rm -rf /var/lib/mysql/*"]
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-db-vol
