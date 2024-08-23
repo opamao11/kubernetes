@@ -5,7 +5,7 @@ metadata:
 spec:
   ports:
     - port: 11211
-      targetPort: appmemC-port
+      targetPort: 11211 # Changed to a numeric port to match the application's port
       protocol: TCP
   selector:
     app: vprocache01
